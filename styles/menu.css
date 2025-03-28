@@ -1,0 +1,203 @@
+.menu-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.menu-buttons img {
+  max-width: 50%;
+  max-height: 50%;
+  margin-bottom: 20px;
+  border: 5px solid transparent;
+  border-radius: 0 20px 0 20px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-image 0.3s ease;
+}
+
+.menu-buttons img:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #f0a22d;
+  border-image: linear-gradient();
+  border-image-slice: 1;
+}
+
+.menu-icon {
+  width: 0px;
+  height: 80px;
+  margin-bottom: 0;
+  border-radius: 8px;
+  box-shadow: none;
+  background: none;
+}
+
+.menu-WorL,
+.menu-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.menu-WorL p,
+.menu-start p {
+  align-self: center;
+  text-align: center;
+  font-size: 24px;
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+  width: 200px;
+}
+
+.menu-WorL:hover p,
+.menu-start:hover p {
+  opacity: 10 !important;
+}
+
+.menu-settings img {
+  border-radius: 0 20px 0 20px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-image 0.3s ease;
+}
+
+.menu-settings p {
+  align-self: center;
+  font-size: 24px;
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.menu-settings:hover p {
+  opacity: 10;
+}
+
+.menu-settings img:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #f0a22d;
+  border-image: linear-gradient();
+  border-image-slice: 1;
+}
+
+.audio-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.audio-buttons-container img {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+}
+
+.menu-buttons-WL-Overlay {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  margin-top: 8px;
+}
+
+.menu-buttons-WL-Overlay img {
+  border-radius: 0 20px 0 20px !important;
+}
+
+.menu-buttons-WL-Overlay img:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #f0a22d;
+  border-image: linear-gradient();
+  border-image-slice: 1;
+}
+
+.return-button-setting {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.return-button-setting img {
+  width: 80px;
+  height: 80px;
+  border-radius: 0 20px 0 20px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-image 0.3s ease;
+}
+
+.return-button-setting img:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #f0a22d;
+  border-image: linear-gradient();
+  border-image-slice: 1;
+}
+
+.return-button-setting p {
+  align-self: center;
+  font-size: 36px;
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.return-button-setting:hover p {
+  opacity: 10;
+}
+
+.impressum {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.help-img-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-img-container p {
+  align-self: center;
+  font-size: 36px;
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.help-img-container:hover p {
+  opacity: 10;
+}
+
+.help-img-container img {
+  width: 80px;
+  height: 80px;
+  border-radius: 0 20px 0 20px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-image 0.3s ease;
+}
+
+.help-img-container img:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #f0a22d;
+  border-image: linear-gradient();
+  border-image-slice: 1;
+}
+
+.start-screen {
+  max-width: 20%;
+  height: auto;
+  margin: 0 auto 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  display: block;
+}

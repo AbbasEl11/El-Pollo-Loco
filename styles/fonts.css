@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Rock Salt";
+  src: url(../fonts/RockSalt-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Bangers";
+  src: url(../fonts/Bangers-Regular.ttf);
+  font-weight: 400;
+}
