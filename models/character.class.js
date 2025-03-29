@@ -150,7 +150,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
-    this.offset = { top: 100, bottom: 0, left: 30, right: 30 };
+    this.offset = { top: 100, bottom: -5, left: 20, right: 20 };
     this.applyGravity();
     this.startAnimationCycle();
   }

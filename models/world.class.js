@@ -188,7 +188,7 @@ class World {
         this.checkThrowObjects();
         this.levelEndCheck();
       }
-    }, 200);
+    }, 100);
   }
 
   /**

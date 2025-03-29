@@ -31,43 +31,64 @@ function isColliding(a, b) {
 }
 
 /**
- * Determines what happens if the character stomps a chicken from above
- * or collides with it from the side.
- * @param {World} world - The game world instance.
- * @param {Object} chickenEnemy - The chicken enemy.
+ * Prüft, ob der Charakter das Huhn wirklich "von oben" trifft.
+ * @param {World} world - Das Spielwelt-Objekt.
+ * @param {Object} chickenEnemy - Das Huhn.
+ * @returns {boolean} true, wenn ein Stomp (Sprung von oben) vorliegt.
  */
-function handleChickenCollision(world, chickenEnemy) {
+function checkStompCondition(world, chickenEnemy) {
   let characterBox = getHitBox(world.character);
   let enemyBox = getHitBox(chickenEnemy);
-  let overlap = characterBox.bottom - enemyBox.top;
 
-  if (overlap < 52) {
+  let enemyHeight = enemyBox.bottom - enemyBox.top;
+  let overlapFromTop = characterBox.bottom - enemyBox.top;
+  let stompThreshold = enemyHeight;
+
+  return (
+    overlapFromTop > 0 &&
+    overlapFromTop < stompThreshold &&
+    world.character.speedY < 0
+  );
+}
+
+/**
+ * Checks if the character actually stomps the chicken from above.
+ * @param {World} world - The game world object.
+ * @param {Object} chickenEnemy - The chicken enemy object.
+ * @returns {boolean} Returns true if it's a valid stomp from above.
+ */
+function isChickenStomped(world, chickenEnemy) {
+  let characterBox = getHitBox(world.character);
+  let enemyBox = getHitBox(chickenEnemy);
+
+  let enemyHeight = enemyBox.bottom - enemyBox.top;
+  let overlapFromTop = characterBox.bottom - enemyBox.top;
+  let stompThreshold = enemyHeight; // You can adjust to e.g. enemyHeight * 0.4
+
+  // IMPORTANT: In many engines, speedY < 0 means moving upward,
+  // so make sure this is correct for your physics.
+  return (
+    overlapFromTop > 0 &&
+    overlapFromTop < stompThreshold &&
+    world.character.speedY < 0
+  );
+}
+
+/**
+ * Handles the collision with a chicken enemy:
+ * if it's a stomp from above, the chicken is killed;
+ * otherwise, the character takes damage.
+ * @param {World} world - The game world object.
+ * @param {Object} chickenEnemy - The chicken enemy object.
+ */
+function handleChickenCollision(world, chickenEnemy) {
+  if (isChickenStomped(world, chickenEnemy)) {
     world.killChicken(chickenEnemy);
     world.character.speedY = 20;
   } else {
     world.character.hit(chickenEnemy.damage);
     world.statusBar.setPercentage(world.character.energy);
     world.soundManager.playSound(world.soundManager.characterHurtSound, false);
-  }
-}
-
-/**
- * Handles collision with the end boss. The character takes
- * additional damage and may be repositioned.
- * @param {World} world - The game world instance.
- * @param {Object} endBoss - The end boss enemy.
- */
-function handleBossCollision(world, endBoss) {
-  world.character.hit(endBoss.damage * 2);
-  world.statusBar.setPercentage(world.character.energy);
-  world.soundManager.playSound(world.soundManager.characterHurtSound, false);
-
-  let characterBox = getHitBox(world.character);
-  let endBossBox = getHitBox(endBoss);
-
-  if (characterBox.right > endBossBox.left) {
-    world.character.x =
-      endBossBox.left - (characterBox.right - world.character.x);
   }
 }
 
