@@ -2,6 +2,15 @@
  * Global helper functions for collisions and general game logic
  *************************************************************/
 
+function getHitBox(obj) {
+  let offset = obj.offset || { top: 0, left: 0, right: 0, bottom: 0 };
+  return {
+    left: obj.x + offset.left,
+    right: obj.x + obj.width - offset.right,
+    top: obj.y + offset.top,
+    bottom: obj.y + obj.height - offset.bottom,
+  };
+}
 /**
  * Checks if two objects overlap, considering an offset
  * for fine-tuning the collision area.
@@ -10,12 +19,14 @@
  * @param {number} offset - The offset to apply.
  * @returns {boolean} True if colliding, false otherwise.
  */
-function isColliding(a, b, offset) {
+function isColliding(a, b) {
+  let boxA = getHitBox(a);
+  let boxB = getHitBox(b);
   return (
-    a.x + a.width - offset > b.x + offset &&
-    a.y + a.height - offset > b.y + offset &&
-    a.x + offset < b.x + b.width - offset &&
-    a.y + offset < b.y + b.height - offset
+    boxA.right > boxB.left &&
+    boxA.left < boxB.right &&
+    boxA.bottom > boxB.top &&
+    boxA.top < boxB.bottom
   );
 }
 
@@ -26,10 +37,11 @@ function isColliding(a, b, offset) {
  * @param {Object} chickenEnemy - The chicken enemy.
  */
 function handleChickenCollision(world, chickenEnemy) {
-  let characterBottom = world.character.y + world.character.height * 0.9;
-  let enemyTop = chickenEnemy.y + chickenEnemy.height * 0.6;
+  let characterBox = getHitBox(world.character);
+  let enemyBox = getHitBox(chickenEnemy);
+  let overlap = characterBox.bottom - enemyBox.top;
 
-  if (characterBottom < enemyTop) {
+  if (overlap < 52) {
     world.killChicken(chickenEnemy);
     world.character.speedY = 20;
   } else {
@@ -50,8 +62,12 @@ function handleBossCollision(world, endBoss) {
   world.statusBar.setPercentage(world.character.energy);
   world.soundManager.playSound(world.soundManager.characterHurtSound, false);
 
-  if (world.character.x + world.character.width > endBoss.x) {
-    world.character.x = endBoss.x - world.character.width;
+  let characterBox = getHitBox(world.character);
+  let endBossBox = getHitBox(endBoss);
+
+  if (characterBox.right > endBossBox.left) {
+    world.character.x =
+      endBossBox.left - (characterBox.right - world.character.x);
   }
 }
 
@@ -144,7 +160,7 @@ function killChichenWithBottle(bottle, enemy, world) {
 function killEndBossWithBottle(bottle, enemy, world) {
   let isBossEnemy = enemy instanceof Endboss;
   if (isBossEnemy && isColliding(bottle, enemy, 0)) {
-    enemy.hit(20);
+    enemy.hit(10);
     world.endBossBar.setPercentage(enemy.energy);
     bottle.initiateSplash();
     world.throwableObjects.splice(bottle, 1);
@@ -187,17 +203,21 @@ function detectCoinCollisions(world) {
       isColliding(world.character, coin, 20) &&
       world.character.isAboveGround()
     ) {
-      world.level.coins.splice(i, 1);
-      world.coinsCollected++;
-      let percentage = calcCoinPercentage(world.coinsCollected);
-      if (percentage > 100) percentage = 100;
-      world.coinBar.setPercentage(percentage);
-      if (percentage >= 100) {
-        boostCharacterEnergy(world);
-      }
+      setCollectedCoins(i);
       world.soundManager.coinSound.currentTime = 0;
       world.soundManager.playSound(world.soundManager.coinSound, false);
     }
+  }
+}
+
+function setCollectedCoins(i) {
+  world.level.coins.splice(i, 1);
+  world.coinsCollected++;
+  let percentage = calcCoinPercentage(world.coinsCollected);
+  if (percentage > 100) percentage = 100;
+  world.coinBar.setPercentage(percentage);
+  if (percentage >= 100) {
+    boostCharacterEnergy(world);
   }
 }
 

@@ -93,11 +93,14 @@ class ThrowableObject extends MovableObject {
    * @param {number} y - The starting y-position.
    */
   throw(x, y) {
+    this.speedY = 30;
+    this.animateThrow(x, y);
+    this.applyGravity();
+  }
+
+  animateThrow(x, y) {
     this.x = x;
     this.y = y;
-    this.speedY = 30;
-    this.applyGravity();
-
     this.rotationInterval = setInterval(() => {
       if (!this.hasCrashed) {
         this.playAnimation(this.IMAGES_ROTATION);

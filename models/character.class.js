@@ -139,8 +139,6 @@ class Character extends MovableObject {
    */
   idleFrameCount = 0;
 
-  offset = { top: 0, bottom: 0, left: 0, right: 0 };
-
   /**
    * Erstellt eine neue Character-Instanz, lädt die Bilder, aktiviert Gravity und startet die Zyklen.
    */
@@ -152,6 +150,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
+    this.offset = { top: 100, bottom: 0, left: 30, right: 30 };
     this.applyGravity();
     this.startAnimationCycle();
   }

@@ -141,6 +141,7 @@ class Endboss extends MovableObject {
     this.speed = 0.2 + Math.random() * 0.9;
     this.attacking = false;
     this.alert = false;
+    this.offset = { top: 10, bottom: 0, left: 50, right: 50 };
     this.animate();
     this.randomAnimationTrigger();
   }

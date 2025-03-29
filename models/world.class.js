@@ -39,6 +39,8 @@ class World {
     if (!this.soundManager.musicMuted) {
       this.soundManager.playSound(this.soundManager.backgroundMusic, true);
     }
+    this.lastBottleThrow = 0; // Merkt sich den Zeitpunkt
+    this.throwCooldown = 1000; // 1 Sekunde Cooldown
     this.setWorld();
     this.draw();
     this.run();
@@ -67,19 +69,23 @@ class World {
     if (!this.level) return;
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
+    this.drawLevelObjects();
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
     this.addToMap(this.coinBar);
     this.addToMap(this.bottleBar);
     this.ctx.translate(this.camera_x, 0);
+    this.ifVisibleBossBar();
+    this.ctx.translate(-this.camera_x, 0);
+  }
+
+  drawLevelObjects() {
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
     this.addObjectsToMap(this.throwableObjects);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
-    this.ifVisibleBossBar();
-    this.ctx.translate(-this.camera_x, 0);
   }
 
   /**
@@ -263,16 +269,40 @@ class World {
    * Creates and throws a bottle, updating the bottle status.
    */
   throwBottle() {
-    let bottle = new ThrowableObject(
-      this.character.x + 50,
-      this.character.y + 100,
-      this
-    );
+    if (this.isOnCooldown()) return;
+    if (this.character.otherDirection) return;
+    this.lastBottleThrow = Date.now();
+    let bottle = this.createRightBottle();
     this.throwableObjects.push(bottle);
     this.bottlesCollected--;
     let perc = this.bottlesCollected * 20;
     if (perc < 0) perc = 0;
     this.bottleBar.setPercentage(perc);
+  }
+
+  /**
+   * Checks whether the bottle throw is still on cooldown.
+   *
+   * @returns {boolean} True if the cooldown period has not yet elapsed, false otherwise.
+   */
+  isOnCooldown() {
+    return Date.now() - this.lastBottleThrow < this.throwCooldown;
+  }
+
+  /**
+   * Creates a new bottle object that is thrown to the right.
+   * The initial position is set relative to the character's position, and its horizontal speed is set.
+   *
+   * @returns {ThrowableObject} The newly created bottle object.
+   */
+  createRightBottle() {
+    let bottle = new ThrowableObject(
+      this.character.x + 50,
+      this.character.y + 100,
+      this
+    );
+    bottle.speedX = 10;
+    return bottle;
   }
 
   /**
@@ -323,7 +353,11 @@ class World {
   }
 
   /**
-   * Checks if the level has ended, plays level completion sound, and advances to next level.
+   * Checks if the current level is complete. If the character reaches
+   * the level end, plays the level complete sound, marks the level complete,
+   * and shows the overlay before moving to the next level.
+   *
+   * @returns {void}
    */
   levelEndCheck() {
     if (!this.level || this.levelComplete) return;
@@ -331,16 +365,26 @@ class World {
       this.soundManager.levelCompleteSound.currentTime = 0;
       this.soundManager.playSound(this.soundManager.levelCompleteSound, false);
       this.levelComplete = true;
-      let overlayLC = document.getElementById("overlay-levelcomplete");
-      if (overlayLC) {
-        overlayLC.innerHTML = `<h1>Level ${this.currentLevelNumber} Completed!</h1>`;
-        overlayLC.classList.remove("hidden");
-      }
-      setTimeout(() => {
-        if (overlayLC) overlayLC.classList.add("hidden");
-        nextLevel();
-      }, 1000);
+      this.handleLevelCompleteOverlay();
     }
+  }
+
+  /**
+   * Displays the level complete overlay with a message, then hides it
+   * after 1 second and proceeds to the next level.
+   *
+   * @returns {void}
+   */
+  handleLevelCompleteOverlay() {
+    let overlayLC = document.getElementById("overlay-levelcomplete");
+    if (overlayLC) {
+      overlayLC.innerHTML = `<h1>Level ${this.currentLevelNumber} Completed!</h1>`;
+      overlayLC.classList.remove("hidden");
+    }
+    setTimeout(() => {
+      if (overlayLC) overlayLC.classList.add("hidden");
+      nextLevel();
+    }, 1000);
   }
 
   /**

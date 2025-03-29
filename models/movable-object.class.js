@@ -80,20 +80,6 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Checks for collision with another movable object.
-   * @param {MovableObject} mo - The other object to test collision against.
-   * @returns {boolean} True if the two objects intersect; otherwise, false.
-   */
-  isColliding(mo) {
-    return (
-      this.x + this.width > mo.x &&
-      this.x < mo.x + mo.width &&
-      this.y + this.height > mo.y &&
-      this.y < mo.y + mo.height
-    );
-  }
-
-  /**
    * Reduces the object's energy by a specified damage amount.
    * If energy falls below zero, it is reset to zero.
    * The last hit timestamp is updated unless the energy is already zero.

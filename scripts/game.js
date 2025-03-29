@@ -22,36 +22,61 @@ function init() {
 }
 
 /**
- * Starts the game, hides the menu overlay,
- * shows the canvas and title, and loads the first level.
+ * Starts the game by initializing the world, loading the level data,
+ * setting up audio, and playing background music.
+ *
+ * @returns {void}
  */
 function startGame() {
-  document.getElementById("overlay-menu").classList.add("hidden");
-  document.getElementById("canvas").style.display = "block";
-  let title = document.querySelector("h1");
-  if (title) title.style.display = "block";
-
+  setupDisplayAndTitle();
   canvas = document.getElementById("canvas");
-  currentLevel = 3;
+  currentLevel = 1;
   world = new World(canvas, keyboard);
   setupAllAudio();
   let levelData = loadCurrentLevel();
   world.loadLevelData(levelData, currentLevel);
-
   if (!musicMuted && world.soundManager) {
     world.soundManager.playSound(world.soundManager.backgroundMusic, true);
   }
 }
 
 /**
- * Starts again from Level 1. Stops the old World instance,
- * hides Game Over overlays, shows canvas and title,
- * and reloads Level 1.
+ * Hides the overlay menu and displays the canvas and title.
+ *
+ * @returns {void}
+ */
+function setupDisplayAndTitle() {
+  document.getElementById("overlay-menu").classList.add("hidden");
+  document.getElementById("canvas").style.display = "block";
+  let title = document.querySelector("h1");
+  if (title) title.style.display = "block";
+}
+
+/**
+ * Restarts the game by stopping the current world, resetting the display,
+ * initializing a new world, and loading the first level.
+ *
+ * @returns {void}
  */
 function restartGame() {
   if (world) {
     world.stopGame();
   }
+  resetDisplay();
+  currentLevel = 1;
+  canvas = document.getElementById("canvas");
+  world = new World(canvas, keyboard);
+  setupAllAudio();
+  let levelData = loadCurrentLevel();
+  world.loadLevelData(levelData, currentLevel);
+}
+
+/**
+ * Hides the game-over and win overlays and shows the canvas and title.
+ *
+ * @returns {void}
+ */
+function resetDisplay() {
   document.getElementById("overlay-gameover").classList.add("hidden");
   document.getElementById("overlay-win").classList.add("hidden");
   document.getElementById("canvas").style.display = "block";
@@ -59,13 +84,6 @@ function restartGame() {
   if (title) {
     title.style.display = "block";
   }
-
-  currentLevel = 1;
-  canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
-  setupAllAudio();
-  let levelData = loadCurrentLevel();
-  world.loadLevelData(levelData, currentLevel);
 }
 
 // Level Management Functions
