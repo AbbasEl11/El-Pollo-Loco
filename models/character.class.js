@@ -1,29 +1,29 @@
 /**
- * Repräsentiert den spielbaren Charakter, der von MovableObject erbt.
- * Der Charakter kann sich bewegen, jump, im Leerlauf verweilen und mit Gegnern oder Items interagieren.
+ * Represents the playable character, which inherits from MovableObject.
+ * The character can move, jump, remain idle, and interact with enemies or items.
  * @extends MovableObject
  */
 class Character extends MovableObject {
   /**
-   * Höhe des Charakters in Pixeln.
+   * Height of the character in pixels.
    * @type {number}
    */
   height = 250;
 
   /**
-   * Startposition auf der Y-Achse.
+   * Initial position on the Y-axis.
    * @type {number}
    */
   y = 95;
 
   /**
-   * Horizontale Geschwindigkeit des Charakters.
+   * Horizontal speed of the character.
    * @type {number}
    */
   speed = 10;
 
   /**
-   * Bilder für die Geh-Animation.
+   * Images for the walking animation.
    * @type {string[]}
    */
   IMAGES_WALKING = [
@@ -36,7 +36,7 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Bilder für die Sprung-Animation.
+   * Images for the jumping animation.
    * @type {string[]}
    */
   IMAGES_JUMPING = [
@@ -52,7 +52,7 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Bilder für die Todesanimation.
+   * Images for the death animation.
    * @type {string[]}
    */
   IMAGES_DEAD = [
@@ -66,7 +66,7 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Bilder für die Verletzungsanimation.
+   * Images for the hurt animation.
    * @type {string[]}
    */
   IMAGES_HURT = [
@@ -76,7 +76,7 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Bilder für die kurze Idle-Animation.
+   * Images for the short idle animation.
    * @type {string[]}
    */
   IMAGES_IDLE = [
@@ -93,7 +93,7 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Bilder für die lange Idle-Animation.
+   * Images for the long idle animation.
    * @type {string[]}
    */
   IMAGES_LONG_IDLE = [
@@ -109,38 +109,38 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Referenz auf die aktuelle Spielwelt.
+   * Reference to the current game world.
    * @type {World}
    */
   world;
 
   /**
-   * Zählt die verstrichene Zeit (in ms) seit der letzten Bewegung,
-   * zur Steuerung der Idle-Animation.
+   * Counts the elapsed time (in ms) since the last movement,
+   * for controlling the idle animation.
    * @type {number}
    */
   idleTimeCounter = 0;
 
   /**
-   * Intervall für den Bewegungszyklus.
+   * Interval for the movement cycle.
    * @type {number|undefined}
    */
   movementInterval;
 
   /**
-   * Intervall für den Animationszyklus.
+   * Interval for the animation cycle.
    * @type {number|undefined}
    */
   animationInterval;
 
   /**
-   * Zähler zum Überspringen von Idle-Frames.
+   * Counter for skipping idle frames.
    * @type {number}
    */
   idleFrameCount = 0;
 
   /**
-   * Erstellt eine neue Character-Instanz, lädt die Bilder, aktiviert Gravity und startet die Zyklen.
+   * Creates a new Character instance, loads images, activates gravity, and starts cycles.
    */
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
@@ -150,13 +150,13 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
-    this.offset = { top: 100, bottom: -5, left: 20, right: 20 };
+    this.offset = { top: 120, bottom: -5, left: 40, right: 40 };
     this.applyGravity();
     this.startAnimationCycle();
   }
 
   /**
-   * Startet die Bewegungs- und Animationszyklen.
+   * Starts the movement and animation cycles.
    */
   startAnimationCycle() {
     this.movement();
@@ -164,7 +164,7 @@ class Character extends MovableObject {
   }
 
   /**
-   * Initialisiert den Bewegungszyklus zur Auswertung der Tastatureingaben.
+   * Initializes the movement cycle to process keyboard inputs.
    */
   movement() {
     this.movementInterval = setInterval(() => {
@@ -177,8 +177,8 @@ class Character extends MovableObject {
   }
 
   /**
-   * Verarbeitet horizontale Eingaben (rechts/links) und bewegt den Charakter.
-   * @returns {boolean} true, wenn keine horizontale Taste gedrückt wurde, sonst false.
+   * Processes horizontal inputs (left/right) and moves the character.
+   * @returns {boolean} true if no horizontal key is pressed, otherwise false.
    */
   processHorizontalMovement() {
     let noInput = true;
@@ -196,15 +196,12 @@ class Character extends MovableObject {
   }
 
   /**
-   * Prüft, ob die Sprungtasten (SPACE oder UP) aktiviert sind, und führt einen jump aus.
-   * @param {boolean} noInput - Status, ob bisher keine Taste gedrückt wurde.
-   * @returns {boolean} Aktualisierter Eingabestatus.
+   * Checks if the jump keys (SPACE or UP) are activated and performs a jump.
+   * @param {boolean} noInput - Status indicating whether no key has been pressed yet.
+   * @returns {boolean} Updated input status.
    */
   processJump(noInput) {
-    if (
-      (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
-      !this.isAboveGround()
-    ) {
+    if (this.world.keyboard.SPACE || this.world.keyboard.UP) {
       this.jump();
       noInput = false;
     }
@@ -212,9 +209,9 @@ class Character extends MovableObject {
   }
 
   /**
-   * Prüft, ob die Wurftaste (D) gedrückt wird.
-   * @param {boolean} noInput - Status, ob bisher keine Taste gedrückt wurde.
-   * @returns {boolean} Aktualisierter Eingabestatus.
+   * Checks if the throw key (D) is pressed.
+   * @param {boolean} noInput - Status indicating whether no key has been pressed yet.
+   * @returns {boolean} Updated input status.
    */
   processThrow(noInput) {
     if (this.world.keyboard.D) {
@@ -224,8 +221,8 @@ class Character extends MovableObject {
   }
 
   /**
-   * Aktualisiert den Idle-Zähler basierend auf der Eingabe.
-   * @param {boolean} noInput - true, wenn keine Taste gedrückt wurde.
+   * Updates the idle counter based on input.
+   * @param {boolean} noInput - true if no key is pressed.
    */
   trackIdleTime(noInput) {
     if (noInput) {
@@ -236,14 +233,14 @@ class Character extends MovableObject {
   }
 
   /**
-   * Passt die Kameraposition an, sodass der Charakter im Fokus bleibt.
+   * Adjusts the camera position so that the character remains in focus.
    */
   adjustCamera() {
     this.world.camera_x = -this.x + 100;
   }
 
   /**
-   * Initialisiert den Animationszyklus zur Aktualisierung der Bildsequenzen.
+   * Initializes the animation cycle to update the image sequences.
    */
   animate() {
     this.animationInterval = setInterval(() => {
@@ -256,12 +253,12 @@ class Character extends MovableObject {
       } else {
         this.animateIdleOrWalk();
       }
-    }, 50);
+    }, 70);
   }
 
   /**
-   * Entscheidet, ob die Geh- oder Idle-Animation abgespielt wird,
-   * und wählt zwischen kurzer und langer Idle-Sequenz.
+   * Decides whether to play the walking or idle animation,
+   * and chooses between short and long idle sequences.
    */
   animateIdleOrWalk() {
     if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -280,9 +277,9 @@ class Character extends MovableObject {
   }
 
   /**
-   * Spielt die Idle-Animation langsamer ab, indem Frames übersprungen werden.
-   * @param {string[]} images - Array der Bildpfade für die Animation.
-   * @param {number} skipFrames - Anzahl der zu überspringenden Frames.
+   * Plays the idle animation more slowly by skipping frames.
+   * @param {string[]} images - Array of image paths for the animation.
+   * @param {number} skipFrames - Number of frames to skip.
    */
   animateIdleSlowly(images, skipFrames) {
     this.idleFrameCount++;
@@ -293,8 +290,8 @@ class Character extends MovableObject {
   }
 
   /**
-   * Führt einen jump aus, sofern der Charakter den Boden berührt.
-   * Setzt die Sprunggeschwindigkeit und spielt den jump-Sound.
+   * Executes a jump if the character is on the ground.
+   * Sets the jump speed and plays the jump sound.
    */
   jump() {
     if (!this.isAboveGround()) {

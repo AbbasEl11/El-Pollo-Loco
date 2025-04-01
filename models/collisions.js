@@ -1,6 +1,8 @@
 /*************************************************************
  * Global helper functions for collisions and general game logic
  *************************************************************/
+let damageCooldown = false;
+let damageCooldownTime = 500;
 
 function getHitBox(obj) {
   let offset = obj.offset || { top: 0, left: 0, right: 0, bottom: 0 };
@@ -31,27 +33,6 @@ function isColliding(a, b) {
 }
 
 /**
- * Prüft, ob der Charakter das Huhn wirklich "von oben" trifft.
- * @param {World} world - Das Spielwelt-Objekt.
- * @param {Object} chickenEnemy - Das Huhn.
- * @returns {boolean} true, wenn ein Stomp (Sprung von oben) vorliegt.
- */
-function checkStompCondition(world, chickenEnemy) {
-  let characterBox = getHitBox(world.character);
-  let enemyBox = getHitBox(chickenEnemy);
-
-  let enemyHeight = enemyBox.bottom - enemyBox.top;
-  let overlapFromTop = characterBox.bottom - enemyBox.top;
-  let stompThreshold = enemyHeight;
-
-  return (
-    overlapFromTop > 0 &&
-    overlapFromTop < stompThreshold &&
-    world.character.speedY < 0
-  );
-}
-
-/**
  * Checks if the character actually stomps the chicken from above.
  * @param {World} world - The game world object.
  * @param {Object} chickenEnemy - The chicken enemy object.
@@ -63,14 +44,12 @@ function isChickenStomped(world, chickenEnemy) {
 
   let enemyHeight = enemyBox.bottom - enemyBox.top;
   let overlapFromTop = characterBox.bottom - enemyBox.top;
-  let stompThreshold = enemyHeight; // You can adjust to e.g. enemyHeight * 0.4
+  let stompThreshold = enemyHeight;
 
-  // IMPORTANT: In many engines, speedY < 0 means moving upward,
-  // so make sure this is correct for your physics.
   return (
-    overlapFromTop > 0 &&
+    overlapFromTop > 1.5 &&
     overlapFromTop < stompThreshold &&
-    world.character.speedY < 0
+    world.character.speedY < 1.5
   );
 }
 
@@ -82,14 +61,45 @@ function isChickenStomped(world, chickenEnemy) {
  * @param {Object} chickenEnemy - The chicken enemy object.
  */
 function handleChickenCollision(world, chickenEnemy) {
+  if (damageCooldown) return;
   if (isChickenStomped(world, chickenEnemy)) {
     world.killChicken(chickenEnemy);
+    killNearbyChickens(world, chickenEnemy, 80);
     world.character.speedY = 20;
   } else {
     world.character.hit(chickenEnemy.damage);
     world.statusBar.setPercentage(world.character.energy);
     world.soundManager.playSound(world.soundManager.characterHurtSound, false);
+
+    damageCooldown = true;
+    setTimeout(() => {
+      damageCooldown = false;
+    }, damageCooldownTime);
   }
+}
+
+/**
+ * Kills all chickens that are within a certain radius
+ * around the already hit chicken.
+ * @param {World} world - The game world.
+ * @param {Object} referenceChicken - The chicken that was jumped on.
+ * @param {number} radius - The radius within which all other chickens will be killed.
+ */
+function killNearbyChickens(world, referenceChicken, radius = 50) {
+  world.level.enemies.forEach((enemy) => {
+    if (
+      (enemy instanceof chicken || enemy instanceof SmallChicken) &&
+      !enemy.isDeadChicken
+    ) {
+      let dx = enemy.x - referenceChicken.x;
+      let dy = enemy.y - referenceChicken.y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance <= radius) {
+        world.killChicken(enemy);
+      }
+    }
+  });
 }
 
 /**
@@ -113,6 +123,12 @@ function processEnemyCollision(world, enemy) {
   if (isEndBoss && isColliding(world.character, enemy, 0)) {
     handleBossCollision(world, enemy);
   }
+}
+
+function handleBossCollision(world, endBoss) {
+  world.character.hit(endBoss.damage * 2);
+  world.statusBar.setPercentage(world.character.energy);
+  world.soundManager.characterDiesSound.play();
 }
 
 /**

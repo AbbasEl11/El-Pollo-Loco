@@ -85,3 +85,49 @@ function setupAllAudio() {
     world.soundManager.updateMuteStates();
   }
 }
+
+/**
+ * Retrieves a boolean mute state from localStorage by the specified key.
+ * If no value is found, returns false.
+ * @param {string} key - The localStorage key to retrieve the mute state from.
+ * @returns {boolean} - True if the stored value is "true", otherwise false.
+ */
+function getMutedFromLS(key) {
+  let stored = localStorage.getItem(key);
+  return stored !== null ? stored === "true" : false;
+}
+
+/**
+ * Updates an image element's `src` based on the given condition.
+ * @param {string} id - The ID of the image element in the DOM.
+ * @param {boolean} condition - If true, use `srcMuted`; otherwise `srcUnmuted`.
+ * @param {string} srcMuted - The image source for the muted state.
+ * @param {string} srcUnmuted - The image source for the unmuted state.
+ */
+function updateIcon(id, condition, srcMuted, srcUnmuted) {
+  let icon = document.getElementById(id);
+  if (icon) icon.src = condition ? srcMuted : srcUnmuted;
+}
+
+/**
+ * Loads mute states from localStorage, updates icons, and syncs with SoundManager.
+ */
+function initAudioUI() {
+  musicMuted = getMutedFromLS("musicMuted");
+  sfxMuted = getMutedFromLS("sfxMuted");
+  updateIcon(
+    "music-image",
+    musicMuted,
+    "./img/SquareButtons/MUTEDMusicSquareButton.png",
+    "./img/SquareButtons/MusicSquareButton.png"
+  );
+  updateIcon(
+    "sfx-image",
+    sfxMuted,
+    "./img/SquareButtons/MUTEDAudioSquareButton.png",
+    "./img/SquareButtons/AudioSquareButton.png"
+  );
+  setupAllAudio();
+}
+
+window.addEventListener("DOMContentLoaded", initAudioUI);

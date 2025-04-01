@@ -35,5 +35,11 @@ class Coin extends MovableObject {
      * @type {number}
      */
     this.height = 100;
+
+    /**
+     * The offset for collision detection.
+     * @type {Object}
+     */
+    this.offset = { top: 5, bottom: 5, left: 10, right: 10 };
   }
 }

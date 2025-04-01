@@ -12,8 +12,8 @@ class Bottle extends MovableObject {
    * @param {number} y - The initial Y-position (currently unused).
    */
   constructor(x, y) {
-    super().loadImage('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'); 
-    
+    super().loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
+
     /**
      * The X-position of the bottle.
      * A random offset is added to 200, up to 2500.
@@ -38,5 +38,10 @@ class Bottle extends MovableObject {
      * @type {number}
      */
     this.height = 50;
+    /**
+     * The offset for collision detection.
+     * @type {Object}
+     */
+    this.offset = { top: 5, bottom: 5, left: 10, right: 10 };
   }
 }

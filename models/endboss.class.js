@@ -138,7 +138,7 @@ class Endboss extends MovableObject {
     super().loadImage("img/4_enemie_boss_chicken/1_walk/G1.png");
     this.loadAllImages();
     this.x = 2500;
-    this.speed = 0.2 + Math.random() * 0.9;
+    this.speed = 0.4 + Math.random() * 0.9;
     this.attacking = false;
     this.alert = false;
     this.offset = { top: 10, bottom: 0, left: 50, right: 50 };
@@ -161,7 +161,7 @@ class Endboss extends MovableObject {
    * Sets up intervals for movement (moving left) and animation (e.g. walk, attack).
    */
   animate() {
-    this.moveInterval = setInterval(() => this.moveLeft(), 1000 / 60);
+    this.moveInterval = setInterval(() => this.moveLeft(), 600 / 60);
     this.animationInterval = setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
@@ -189,18 +189,18 @@ class Endboss extends MovableObject {
   randomAnimationTrigger() {
     setInterval(() => {
       let random = Math.random();
-      if (random < 0.3) {
+      if (random < 0.4) {
         this.attacking = true;
         setTimeout(() => {
           this.attacking = false;
-        }, 1000);
-      } else if (random < 0.6) {
+        }, 500);
+      } else if (random < 0.7) {
         this.alert = true;
         setTimeout(() => {
           this.alert = false;
-        }, 1000);
+        }, 500);
       }
-    }, 3000);
+    }, 150);
   }
 
   /**
