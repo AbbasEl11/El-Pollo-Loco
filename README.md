@@ -74,18 +74,85 @@ python -m SimpleHTTPServer 8080
 
 ```
 El-Pollo-Loco/
-├─ index.html
-├─ css/
-│  └─ style.css
-├─ js/
-│  ├─ game.js           # Entry point / world setup
-│  ├─ classes/          # OOP classes (Character, Chicken, Endboss, ...)
-│  ├─ helpers/          # Utils (collision, keyboard, loader, ...)
-│  └─ assets.js         # Asset preload/paths
-├─ assets/
-│  ├─ img/              # Sprites, backgrounds
-│  └─ audio/            # Sound effects, music
-└─ README.md
+├── audio/ # Sound effects & background music
+│ ├── backgroundmusic.mp3
+│ ├── bottle.wav
+│ ├── button-click.mp3
+│ ├── character-dies.mp3
+│ ├── chicken-cries.mp3
+│ ├── coin.mp3
+│ ├── endboss-cries.mp3
+│ ├── explosion.mp3
+│ ├── gameover.wav
+│ ├── hit.wav
+│ ├── jump.wav
+│ ├── level-complete.mp3
+│ ├── throw.wav
+│ └── win-game.mp3
+│
+├── fonts/ # Custom fonts
+│ ├── Bangers-Regular.ttf
+│ └── RockSalt-Regular.ttf
+│
+├── img/ # All game graphics & sprites
+│ ├── 1_editables/ # Editable Illustrator (.ai) files
+│ ├── 2_character_pepe/ # Player animations (idle, walk, jump, hurt, dead)
+│ ├── 3_enemies_chicken/ # Enemy chicken sprites (normal & small)
+│ ├── 4_enemie_boss_chicken/ # Endboss animations (walk, alert, attack, hurt, dead)
+│ ├── 5_background/ # Background images & layers
+│ ├── 6_salsa_bottle/ # Bottle assets & splash animation
+│ ├── 7_statusbars/ # Status bar icons & elements
+│ ├── 8_coin/ # Coin sprites
+│ ├── 9_intro_outro_screens/ # Start & Game Over screens
+│ ├── assets/ # Miscellaneous images
+│ ├── SquareButtons/ # UI button icons
+│ └── You won, you lost/ # Win/Lose screen variations
+│
+├── levels/ # Level definitions
+│ ├── level1.js
+│ ├── level2.js
+│ └── level3.js
+│
+├── models/ # Game classes (OOP)
+│ ├── background-object.class.js
+│ ├── bottle.class.js
+│ ├── character.class.js
+│ ├── chicken.class.js
+│ ├── clouds.class.js
+│ ├── coin.class.js
+│ ├── collisions.js
+│ ├── drawable-object.class.js
+│ ├── endboss.class.js
+│ ├── keyboard.class.js
+│ ├── level.class.js
+│ ├── movable-object.class.js
+│ ├── smallchicken.class.js
+│ ├── sound-manager.js
+│ ├── status-bar.class.js
+│ ├── throwable-object.class.js
+│ └── world.class.js
+│
+├── screenshots/ # In-game screenshots for README
+│ ├── ElPolloLoco-FullScreen.png
+│ ├── ElPolloLoco-Game-Over.png
+│ ├── ElPolloLoco-Game.png
+│ ├── ElPolloLoco-Home.png
+│ └── ElPolloLoco-Settings.png
+│
+├── scripts/ # Main game logic scripts
+│ ├── audio.js
+│ └── game.js
+│
+├── styles/ # CSS stylesheets
+│ ├── fonts.css
+│ ├── menu.css
+│ ├── responsive.css
+│ └── style.css
+│
+├── .gitignore
+├── index.html # Game entry point
+├── LICENSE
+└── README.md
 ```
 
 ## Tech Stack
