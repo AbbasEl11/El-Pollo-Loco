@@ -37,6 +37,9 @@ A lightweight 2D side-scrolling jump’n’run game for the browser – built wi
 
 > Tip: On mobile devices, on-screen buttons are usually displayed.
 
+
+**🎮 Live Demo:** [Play now]  https://abbas-el-mahmoud.com/elpolloloco/index.html !
+
 ## Quick Start
 No build process needed – it’s a pure frontend app.
 
@@ -99,7 +102,15 @@ El-Pollo-Loco/
 - Alternatively: any static hosting service (Netlify, Vercel, Surge, …)
 
 ## Screenshots
-> Add some images/GIFs – this makes the README more appealing.
+
+**EL POLLO LOCO**
+
+
+![El Pollo Loco - HOME](screenshots/ElPolloLoco-Home.png)
+![El Pollo Loco - SETTINGS](screenshots/ElPolloLoco-Settings.png)
+![El Pollo Loco -FullScreen](screenshots/ElPolloLoco-FullScreen.png)
+![El Pollo Loco - Game Over](screenshots/ElPolloLoco-Game-Over.png)
+
 
 ```html
 <!-- Example -->
@@ -114,30 +125,7 @@ El-Pollo-Loco/
 - [ ] Save highscore/progress (LocalStorage)
 - [ ] Accessibility (color/audio cues)
 
-## License
-```bash
-MIT License
 
-Copyright (c) 2025 Abbas El Mahmoud
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
 
 ## Author
 Developed by [AbbasEl11](https://https://github.com/AbbasEl11)
