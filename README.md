@@ -69,7 +69,7 @@ python -m http.server 8080
 python -m SimpleHTTPServer 8080
 ```
 
-## Folder Structure
+## 📂 Folder Structure
 > Structure may vary slightly – adjust names if needed.
 
 ```
