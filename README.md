@@ -36,7 +36,7 @@ A lightweight 2D side-scrolling jump’n’run game for the browser – built wi
 > Tip: On mobile devices, on-screen buttons are usually displayed.
 
 
-**🎮 Live Demo:** [Play now]  https://abbas-el-mahmoud.com/elpolloloco/index.html !
+**🎮 Live Demo:** [El Pollo Loco](https://abbas-el-mahmoud.com/elpolloloco/index.html) 
 
 ## Quick Start
 No build process needed – it’s a pure frontend app.
