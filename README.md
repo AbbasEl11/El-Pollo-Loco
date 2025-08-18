@@ -2,8 +2,6 @@
 
 A lightweight 2D side-scrolling jump’n’run game for the browser – built with **Vanilla JavaScript**, **HTML5 Canvas**, and object-oriented design. Collect coins & bottles, dodge enemies, throw bottles at the final boss, and save the day 🐔💥
 
-![Status Badge](https://img.shields.io/badge/status-active-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue)
-
 ## Table of Contents
 - [Features](#features)
 - [Controls](#controls)
