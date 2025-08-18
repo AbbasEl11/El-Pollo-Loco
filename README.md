@@ -2,6 +2,9 @@
 
 A lightweight 2D side-scrolling jump’n’run game for the browser – built with **Vanilla JavaScript**, **HTML5 Canvas**, and object-oriented design. Collect coins & bottles, dodge enemies, throw bottles at the final boss, and save the day 🐔💥
 
+
+**🎮 Live Demo:** [El Pollo Loco](https://abbas-el-mahmoud.com/elpolloloco/index.html) 
+
 ## Table of Contents
 - [Features](#features)
 - [Controls](#controls)
@@ -35,8 +38,6 @@ A lightweight 2D side-scrolling jump’n’run game for the browser – built wi
 
 > Tip: On mobile devices, on-screen buttons are usually displayed.
 
-
-**🎮 Live Demo:** [El Pollo Loco](https://abbas-el-mahmoud.com/elpolloloco/index.html) 
 
 ## Quick Start
 No build process needed – it’s a pure frontend app.
